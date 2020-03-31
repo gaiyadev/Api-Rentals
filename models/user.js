@@ -49,10 +49,10 @@ module.exports.createUser = (newUser, callback) => {
 
 //exports.validate = validateUser;
 
-module.exports.comparePassword = async (password, hash, callback) => {
+module.exports.comparePassword = async (password, hash) => {
     await bcrypt.compare(password, hash, (err, isMatch) => {
         if (err) throw err;
-        return callback(null, isMatch);
+        return (null, isMatch);
     });
 }
 

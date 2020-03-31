@@ -1,5 +1,6 @@
-const Joi = require('joi');
 const _ = require('lodash');
+const jwt = require('jsonwebtoken');
+const Joi = require('joi');
 const User = require('../models/user');
 var express = require('express');
 
@@ -58,10 +59,12 @@ router.post('/login', async (req, res, next) => {
     }
     User.comparePassword(req.body.Password, user.Password, (err, isMatch) => {
       if (err) throw err;
-      if (!isMatch) return res.status(400).send('Invalid Email or Password');
-      return res.status(200).send('login successfully');
+      if (!isMatch) {
+        return res.status(400).send('Invalid Email or Password')
+      }
     });
-
+    const token = jwt.sign({ _id: user._id }, 'SecretKey');
+    res.send(token);
   });
 });
 
